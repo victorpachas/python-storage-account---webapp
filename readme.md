@@ -15,25 +15,23 @@ az webapp up -n <webapp name> -g <resource-group name>
 ```
 ## Prueba 2: Acceso del webapp con system managed identity
 1. Activar el managed identity en el app service creado en el paso anterior
-2. Modificar el archivo app.py, y comentar toda la sección de Storage Account key access.
-3. Descomentar la sección Storage account Managed identity Access
-4. Con el comando az webapp up desplegar el aplicativo en el webapp
-```bash
-az webapp up -n <webapp name> -g <resource-group name>
-```
-## Prueba 3: Acceso del webapp con user managed identity
-1. Eliminar el servicio creado en la prueba anterior, con ello tambien se elimina la identidad
-2. Crear el webapp con el siguiente comando
-```bash
-az appservice plan create -g <rg-name> -n <service-plan name> --is-linux 
-az webapp create -g <rg-name> -p <service-plan name> -n <web-app name> --runtime "PYTHON:3.7"
-```
-3. Crear el user managed identity en el portal de azure y asociarlo al webapp creado en el paso anterior
-4. Modificar el archivo app.py, y comentar toda la sección de Storage account Managed identity Access.
-5. Descomentar la sección Storage account User Managed identity Access. Adicional a ello reemplazar el valor <client id> por el client id del user managed identity
+2. Asignar el permiso de Storage Blob Data Contributor a la identidad generada por el webapp sobre el storage account.
+3. Modificar el archivo app.py, y comentar toda la sección de Storage Account key access.
+4. Descomentar la sección Storage account Managed identity Access
+5. Cambiar el valor <storageaccountname> por el nombre del storage account
 6. Con el comando az webapp up desplegar el aplicativo en el webapp
 ```bash
 az webapp up -n <webapp name> -g <resource-group name>
 ```
 
+## Prueba 3: Acceso del webapp con user managed identity
+1. Eliminar el servicio creado en la prueba anterior, con ello tambien se elimina la identidad
+2. Crear el user managed identity en el portal de azure
+3. Modificar el archivo app.py, y comentar toda la sección de Storage account Managed identity Access.
+4. Descomentar la sección Storage account User Managed identity Access. Reemplazar el valor <client id> por el client id del user managed identity. Cambiar el valor <storageaccountname> por el nombre del storage account
+5. Con el comando az webapp up desplegar el aplicativo en el webapp
+```bash
+az webapp up -n <webapp name> -g <resource-group name>
+```
+6. Asociar el user managed identity creado en el paso anterior y asociarlo al webapp
 
